@@ -1,19 +1,28 @@
 
 import 'package:beauty_beyond_app/components/appointment_card.dart';
 import 'package:beauty_beyond_app/components/doctor_card.dart';
+import 'package:beauty_beyond_app/components/login_form.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../utils/config.dart';
 
+
+late User signedInUser;
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final _auth = FirebaseAuth.instance;
+
   List<Map<String, dynamic>> medCat= [
     {
       "icon":FontAwesomeIcons.userDoctor,
@@ -32,6 +41,23 @@ class _HomePageState extends State<HomePage> {
       "category":"Another",
     },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        signedInUser = user;
+        print(signedInUser.email);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Config().init(context);
@@ -65,6 +91,17 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 ),
+                // sign out button
+                TextButton(
+                  onPressed: () {
+                    // Perform sign out operation here
+                    Navigator.of(context).pop(true);
+                    _auth.signOut();
+                    Navigator.of(context).pushNamed('auth');
+                  },
+                  child: const Text('Sign Out'),
+                ),
+
                 Config.spaceSMedium,
                 //category listing
                 const Text(

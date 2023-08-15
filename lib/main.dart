@@ -1,3 +1,4 @@
+import 'package:beauty_beyond_app/screens/auth.dart';
 import 'package:beauty_beyond_app/screens/auth_page.dart';
 import 'package:beauty_beyond_app/screens/booking_page.dart';
 import 'package:beauty_beyond_app/screens/doctor_details.dart';
@@ -52,7 +53,8 @@ class MyApp extends StatelessWidget {
       routes: {
         // this is initial rout of the app
         // which is auth page (login and sign up)
-        '/':(context) => const AuthPage(),
+        '/':(context) => const Auth(),
+        'auth' :(context) => const AuthPage(),
         'main': (context) => const MainLayout(),
         'doc_details': (context) => const DoctorDetails(),
         'booking_page': (context) => const BookingPage(),

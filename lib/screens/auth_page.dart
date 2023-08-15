@@ -60,9 +60,6 @@ class _AuthPageState extends State<AuthPage> {
                   )
                 ],
               ),
-
-
-
               Config.spaceSmall,
               const LoginForm(),
               Config.spaceSmall,
@@ -80,46 +77,51 @@ class _AuthPageState extends State<AuthPage> {
                 ),
               ),
               const Spacer(),
-              Center(
-                child: Text(
-                  AppText.enText['social-login']!,
-                  style:  TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey.shade500,
-                  ),
-                ),
-              ),
-              Config.spaceSmall,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const <Widget> [
-                  SocialButton(social: 'google'),
-                  SocialButton(social: 'facebook'),
-
-                ],
-              ),
-              Config.spaceSmall,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget> [
-                  Text(
-                    AppText.enText['signUp_text']!,
-                    style:  TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.grey.shade500,
+              Column(
+                  children: <Widget> [
+                    Center(
+                    child: Text(
+                      AppText.enText['social-login']!,
+                      style:  TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey.shade500,
+                      ),
                     ),
                   ),
-                  const Text(
-                    'Sign Up',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),)
-                ],
-              )
+                  Config.spaceSmall,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const <Widget> [
+                      SocialButton(social: 'google'),
+                      SocialButton(social: 'facebook'),
+
+                    ],
+                  ),
+
+                  Config.spaceSmall,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget> [
+                      Text(
+                        AppText.enText['signUp_text']!,
+                        style:  TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                      const Text(
+                        'Sign Up',
+                        style:  TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),)
+                    ],
+                  ),
+                ]
+              ),
             ],
           ),
         ),
