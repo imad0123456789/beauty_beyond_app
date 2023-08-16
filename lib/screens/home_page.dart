@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                       '$_authE!',
                       style: const TextStyle(
-                        fontSize: 36,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

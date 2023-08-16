@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:beauty_beyond_app/components/button.dart';
 import 'package:beauty_beyond_app/utils/config.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,17 +24,65 @@ class _SignUpFormState extends State<SignUpForm> {
 
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _familyController = TextEditingController();
+  final _mobileController = TextEditingController();
+  final _ageController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
-  bool obsecurePass= true;
+  bool obsecurePass = true;
   bool spinner = false;
   Uint8List? imageBytes;
 
   Future signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passController.text.trim()
-    );
+    try {
+      // create user
+      final newUser = await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passController.text.trim());
+      if (newUser.user == null) {
+        return;
+      }
+      // add user details
+      addUserDetails(
+        _nameController.text.trim(),
+        _familyController.text.trim(),
+        _emailController.text.trim(),
+        int.parse(_mobileController.text.trim()),
+        int.parse(_ageController.text.trim()),
+      );
+
+      // add profile image for new user
+      if (imageBytes != null) {
+        Reference ref = FirebaseStorage.instance.ref().child(newUser.user!.uid);
+        try {
+          await ref.putData(imageBytes!);
+          final value = ref.getDownloadURL();
+          print(value);
+        } catch (error) {
+          print(error);
+        }
+      }
+
+
+      Navigator.of(context).pushNamed('main');
+      setState(() {
+        spinner = false;
+      });
+    } catch (error) {
+      print(error);
+      spinner = false;
+    }
+  }
+
+  Future addUserDetails(
+      String name, String family, String email, int mobile, int age) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': name,
+      'family': family,
+      'email': email,
+      'mobile number': mobile,
+      'age': age,
+    });
   }
 
   @override
@@ -45,6 +94,7 @@ class _SignUpFormState extends State<SignUpForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             imageProfile(),
+            //user name
             TextFormField(
               controller: _nameController,
               keyboardType: TextInputType.text,
@@ -58,6 +108,47 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             Config.spaceSmall,
+            TextFormField(
+              controller: _familyController,
+              keyboardType: TextInputType.text,
+              cursorColor: Config.primaryColor,
+              decoration: const InputDecoration(
+                hintText: 'UserFamily',
+                labelText: 'UserFamily',
+                alignLabelWithHint: true,
+                prefixIcon: Icon(Icons.person_2_outlined),
+                prefixIconColor: Config.primaryColor,
+              ),
+            ),
+            Config.spaceSmall,
+            TextFormField(
+              controller: _mobileController,
+              keyboardType: TextInputType.text,
+              cursorColor: Config.primaryColor,
+              decoration: const InputDecoration(
+                hintText: 'Mobile',
+                labelText: 'Mobile',
+                alignLabelWithHint: true,
+                prefixIcon: Icon(Icons.person_2_outlined),
+                prefixIconColor: Config.primaryColor,
+              ),
+            ),
+            Config.spaceSmall,
+            //age
+            TextFormField(
+              controller: _ageController,
+              keyboardType: TextInputType.text,
+              cursorColor: Config.primaryColor,
+              decoration: const InputDecoration(
+                hintText: 'Age',
+                labelText: 'Age',
+                alignLabelWithHint: true,
+                prefixIcon: Icon(Icons.person_2_outlined),
+                prefixIconColor: Config.primaryColor,
+              ),
+            ),
+            Config.spaceSmall,
+            //email
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -90,107 +181,73 @@ class _SignUpFormState extends State<SignUpForm> {
                       },
                       icon: obsecurePass
                           ? const Icon(
-                        Icons.visibility_off_outlined,
-                        color: Colors.black38,
-                      )
+                              Icons.visibility_off_outlined,
+                              color: Colors.black38,
+                            )
                           : const Icon(
-                        Icons.visibility_outlined,
-                        color: Config.primaryColor,
-                      ))),
+                              Icons.visibility_outlined,
+                              color: Config.primaryColor,
+                            ))),
             ),
             Config.spaceSmall,
 
             Button(
                 width: double.infinity,
                 title: 'Sign up',
-                onPressed: ()  async {
+                onPressed: () async {
                   setState(() {
-                    spinner = true ;
+                    spinner = true;
                   });
-                  //signUp();
-                 // Navigator.of(context).pushNamed('main');
-                  try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: _emailController.text.trim(),
-                        password: _passController.text.trim());
-                    if (newUser.user == null) {
-                      return;
-                    }
-                    if (imageBytes != null) {
-                      Reference ref = FirebaseStorage.instance.ref().child(
-                          newUser.user!.uid);
-                      try {
-                        await ref.putData(imageBytes!);
-                        final value = ref.getDownloadURL();
-                        print(value);
-                      } catch (error) {
-                        print(error);
-                      }
-                    }
-                    Navigator.of(context).pushNamed('main');
-                    setState(() {
-                      spinner = false;
-                    });
-                  } catch (error) {
-                    print(error);
-                    spinner = false;
-                  }
+                  signUp();
+                  // Navigator.of(context).pushNamed('main');
                 },
-                disable: false
-            )
-
-
+                disable: false)
           ],
         ),
       ),
     );
   }
 
-
   Widget imageProfile() {
     return Center(
         child: Stack(
-          children: <Widget>[
-            Container(
-              width: 150,
-              height: 150,
-              child: CircleAvatar(
-                radius: 100,
-                backgroundColor: Config.primaryColor,
-                child:
-                imageBytes == null
-                    ? Image.asset('assets/unknown.png')
-                    : Image.memory(imageBytes!),
+      children: <Widget>[
+        Container(
+          width: 150,
+          height: 150,
+          child: CircleAvatar(
+            radius: 100,
+            backgroundColor: Config.primaryColor,
+            child: imageBytes == null
+                ? Image.asset('assets/unknown.png')
+                : Image.memory(imageBytes!),
+          ),
+        ),
+        Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 4, color: Colors.white),
+                color: Config.primaryColor,
               ),
-            ),
-            Positioned(
-                bottom: 0,
-                right: 0,
-                child:
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 4, color: Colors.white),
-                    color: Config.primaryColor,
-                  ),
-                  child: IconButton(
-                    icon: const  Icon(Icons.camera_alt),
-                    color: Colors.white,
-                    onPressed: () {
-                      pickUploadImage();
-                      showModalBottomSheet(
-                        context: context,
-                        builder: ((builder) => bottomSheet()),
-                      );
-                    },
-                  ),
-                )
-            ),
-          ],
-        )
-    );
+              child: IconButton(
+                icon: const Icon(Icons.camera_alt),
+                color: Colors.white,
+                onPressed: () {
+                  pickUploadImage();
+                  showModalBottomSheet(
+                    context: context,
+                    builder: ((builder) => bottomSheet()),
+                  );
+                },
+              ),
+            )),
+      ],
+    ));
   }
 
   Widget bottomSheet() {
@@ -203,7 +260,8 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
       child: Column(
         children: <Widget>[
-          const Text("Choose Profile Photo",
+          const Text(
+            "Choose Profile Photo",
             style: TextStyle(
               fontSize: 25,
               color: Colors.blue,
@@ -216,23 +274,35 @@ class _SignUpFormState extends State<SignUpForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.camera, color: Colors.green,),
+                icon: Icon(
+                  Icons.camera,
+                  color: Colors.green,
+                ),
                 onPressed: () {
                   takePhoto(ImageSource.camera);
                 },
               ),
-              Text('Camera', style: TextStyle(
-                color: Colors.green,
-              ),),
+              Text(
+                'Camera',
+                style: TextStyle(
+                  color: Colors.green,
+                ),
+              ),
               IconButton(
-                icon: Icon(Icons.image, color: Colors.red,),
+                icon: Icon(
+                  Icons.image,
+                  color: Colors.red,
+                ),
                 onPressed: () {
                   takePhoto(ImageSource.gallery);
                 },
               ),
-              Text('Gallery', style: TextStyle(
-                color: Colors.red,
-              ),),
+              Text(
+                'Gallery',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
             ],
           )
         ],
@@ -245,12 +315,8 @@ class _SignUpFormState extends State<SignUpForm> {
       source: source,
     );
     imageBytes = await pickedFile?.readAsBytes();
-    setState(() {
-
-    });
+    setState(() {});
   }
-
-
 
   void pickUploadImage() async {
     final image = await ImagePicker().pickImage(

@@ -29,19 +29,19 @@ class _AuthPageState extends State<AuthPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children:<Widget> [
-              Row(
+              isSignIn? Row(
                 children: [
                   Column(
                     children: [
-                      Text(
+                       Text(
                         AppText.enText['welcome_text']!,
                         style: const TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                           color: Config.primaryColor,
                         ),
-                      ),
-                      Config.spaceSmall,
+                      ) ,
+                      //Config.spaceSmall,
                       Text(
                         isSignIn
                         ? AppText.enText['signIn_text']!
@@ -64,8 +64,12 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   )
                 ],
+              ) : Row(
+                children: [
+                  Text('Sign Up Page'),
+                ],
               ),
-              Config.spaceSmall,
+              //Config.spaceSmall,
               isSignIn ? LoginForm() : SignUpForm(),
               Config.spaceSmall,
               isSignIn ? Center(
@@ -84,8 +88,10 @@ class _AuthPageState extends State<AuthPage> {
 
               ),
               const Spacer(),
+
               Column(
                   children: <Widget> [
+                    /*
                     Center(
                     child: Text(
                       AppText.enText['social-login']!,
@@ -96,15 +102,18 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                   ),
+
                   Config.spaceSmall,
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const <Widget> [
+                    children: <Widget> [
                       SocialButton(social: 'google'),
                       SocialButton(social: 'facebook'),
 
                     ],
                   ),
+
+                     */
 
                   Config.spaceSmall,
                   Row(
