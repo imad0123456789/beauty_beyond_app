@@ -55,7 +55,7 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ],
                   ),
-                  SizedBox(width: 80,),
+                  SizedBox(width: 100,),
                   const SizedBox(
                     child: CircleAvatar(
                       radius: 50,
@@ -127,7 +127,7 @@ class _AuthPageState extends State<AuthPage> {
                           });
                         },
                         child:  Text(
-                          isSignIn ? 'Sign Up' : 'Sign IN',
+                          isSignIn ? 'Sign Up' : 'Sign In',
                           style:  const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

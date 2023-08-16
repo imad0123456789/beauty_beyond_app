@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+final storage = FirebaseStorage.instance;
+
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
 
@@ -18,6 +20,7 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final ImagePicker _picker = ImagePicker();
   final _auth = FirebaseAuth.instance;
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -104,8 +107,34 @@ class _SignUpFormState extends State<SignUpForm> {
                   setState(() {
                     spinner = true ;
                   });
-                  signUp();
-                  Navigator.of(context).pushNamed('main');
+                  //signUp();
+                 // Navigator.of(context).pushNamed('main');
+                  try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: _emailController.text.trim(),
+                        password: _passController.text.trim());
+                    if (newUser.user == null) {
+                      return;
+                    }
+                    if (imageBytes != null) {
+                      Reference ref = FirebaseStorage.instance.ref().child(
+                          newUser.user!.uid);
+                      try {
+                        await ref.putData(imageBytes!);
+                        final value = ref.getDownloadURL();
+                        print(value);
+                      } catch (error) {
+                        print(error);
+                      }
+                    }
+                    Navigator.of(context).pushNamed('main');
+                    setState(() {
+                      spinner = false;
+                    });
+                  } catch (error) {
+                    print(error);
+                    spinner = false;
+                  }
                 },
                 disable: false
             )

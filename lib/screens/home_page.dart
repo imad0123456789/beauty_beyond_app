@@ -3,6 +3,7 @@ import 'package:beauty_beyond_app/components/appointment_card.dart';
 import 'package:beauty_beyond_app/components/doctor_card.dart';
 import 'package:beauty_beyond_app/components/login_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,7 +13,10 @@ import '../utils/config.dart';
 late User signedInUser;
 
 class HomePage extends StatefulWidget {
+
   const HomePage({Key? key}) : super(key: key);
+
+
 
 
 
@@ -22,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _auth = FirebaseAuth.instance;
+  final _authE = FirebaseAuth.instance.currentUser?.email;
 
   List<Map<String, dynamic>> medCat= [
     {
@@ -58,6 +63,35 @@ class _HomePageState extends State<HomePage> {
       print(error);
     }
   }
+
+  Widget imageProfile() {
+    return Center(
+        child: Stack(
+          children: <Widget>[
+            FutureBuilder(
+              initialData: null,
+              future: getProfileImage(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                if (!snapshot.hasData) {
+                  return Text('Image not found');
+                }
+                return CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(snapshot.data!),
+                );
+              },
+            ),
+          ],
+        ));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Config().init(context);
@@ -73,24 +107,30 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children:<Widget> [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const<Widget>[
-                    Text(
-                      'Anna',
-                      style: TextStyle(
-                        fontSize: 24,
+                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                      Text(
+                      '$_authE!',
+                      style: const TextStyle(
+                        fontSize: 36,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    /*
+                    const SizedBox(
                       child: CircleAvatar(
                         radius: 30,
                         backgroundImage: AssetImage('assets/profile01.png'),
                       ),
                     )
+
+                     */
+                    SizedBox(width: 25,),
+                    imageProfile(),
                   ],
                 ),
+
                 // sign out button
                 TextButton(
                   onPressed: () {
@@ -99,7 +139,11 @@ class _HomePageState extends State<HomePage> {
                     _auth.signOut();
                     Navigator.of(context).pushNamed('auth');
                   },
-                  child: const Text('Sign Out'),
+                  child: const Text('Sign Out',
+                  style: TextStyle(
+                    fontSize: 18,
+
+                  ),),
                 ),
 
                 Config.spaceSMedium,
@@ -183,4 +227,19 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
+
+  // get profile Image
+  Future<String> getProfileImage() async {
+    try {
+      return await FirebaseStorage.instance.ref().child(
+          _auth.currentUser!.uid).getDownloadURL();
+    }
+    catch (error) {
+      return await FirebaseStorage.instance.ref().child('unknown.png').getDownloadURL();
+    }
+  }
 }
+
+
+
+
