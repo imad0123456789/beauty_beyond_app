@@ -12,6 +12,8 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _auth = FirebaseAuth.instance;
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
@@ -88,8 +90,18 @@ class _LoginFormState extends State<LoginForm> {
                   setState(() {
                     spinner = true ;
                   });
-                  signIn();
-                  Navigator.of(context).pushNamed('main');
+                  try{
+                    final user = await _auth.
+                    signInWithEmailAndPassword(
+                        email: _emailController.text.trim(),
+                        password: _passController.text.trim());
+                    Navigator.of(context).pushNamed('main');
+                  }
+                  catch(error){
+                    print(error);
+                    spinner = false ;
+                  }
+
                 },
                 disable: false
             )

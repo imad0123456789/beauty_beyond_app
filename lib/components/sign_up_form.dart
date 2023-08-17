@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 final storage = FirebaseStorage.instance;
+final _firestore = FirebaseFirestore.instance; // cloud
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -62,8 +63,6 @@ class _SignUpFormState extends State<SignUpForm> {
           print(error);
         }
       }
-
-
       Navigator.of(context).pushNamed('main');
       setState(() {
         spinner = false;
@@ -199,6 +198,10 @@ class _SignUpFormState extends State<SignUpForm> {
                     spinner = true;
                   });
                   signUp();
+                  await _firestore.collection('messages').add({
+                    'name': 'imad',
+                  });
+
                   // Navigator.of(context).pushNamed('main');
                 },
                 disable: false)
