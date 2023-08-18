@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-final storage = FirebaseStorage.instance;
+//final storage = FirebaseStorage.instance;
 final _firestore = FirebaseFirestore.instance; // cloud
 
 class SignUpForm extends StatefulWidget {
@@ -93,6 +93,7 @@ class _SignUpFormState extends State<SignUpForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             imageProfile(),
+            Config.spaceSmall,
             //user name
             TextFormField(
               controller: _nameController,
@@ -198,13 +199,11 @@ class _SignUpFormState extends State<SignUpForm> {
                     spinner = true;
                   });
                   signUp();
-                  await _firestore.collection('messages').add({
-                    'name': 'imad',
-                  });
-
                   // Navigator.of(context).pushNamed('main');
                 },
                 disable: false)
+
+
           ],
         ),
       ),
@@ -216,8 +215,8 @@ class _SignUpFormState extends State<SignUpForm> {
         child: Stack(
       children: <Widget>[
         Container(
-          width: 150,
-          height: 150,
+          width: 100,
+          height: 100,
           child: CircleAvatar(
             radius: 100,
             backgroundColor: Config.primaryColor,

@@ -21,13 +21,13 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 15,
+          horizontal: 10,
+          vertical: 10,
         ),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children:<Widget> [
               isSignIn? Row(
                 children: [
@@ -89,44 +89,19 @@ class _AuthPageState extends State<AuthPage> {
               ),
               const Spacer(),
 
-              Column(
-                  children: <Widget> [
-                    /*
-                    Center(
-                    child: Text(
-                      AppText.enText['social-login']!,
-                      style:  TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey.shade500,
-                      ),
-                    ),
-                  ),
-
-                  Config.spaceSmall,
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget> [
-                      SocialButton(social: 'google'),
-                      SocialButton(social: 'facebook'),
-
-                    ],
-                  ),
-
-                     */
-
-                  Config.spaceSmall,
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget> [
-                      Text(
-                        isSignIn ?
-                        AppText.enText['signUp_text']!
-                        : AppText.enText['registered_text']!,
-                        style:  TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey.shade500,
+                      Expanded(
+                        child: Text(
+                          isSignIn ?
+                          AppText.enText['signUp_text']!
+                          : AppText.enText['registered_text']!,
+                          style:  TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey.shade500,
+                          ),
                         ),
                       ),
                       TextButton(
@@ -138,19 +113,18 @@ class _AuthPageState extends State<AuthPage> {
                         child:  Text(
                           isSignIn ? 'Sign Up' : 'Sign In',
                           style:  const TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Config.primaryColor,
                           ),),
                       )
                     ],
                   ),
+
                 ]
               ),
-            ],
           ),
         ),
-      )
-    );
+      );
   }
 }
