@@ -26,7 +26,7 @@ class _AuthPageState extends State<AuthPage> {
         ),
         child: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children:<Widget> [
               isSignIn? Row(
@@ -87,7 +87,7 @@ class _AuthPageState extends State<AuthPage> {
               ) : Container(
 
               ),
-              const Spacer(),
+              //const Spacer(),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -89,126 +89,128 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            imageProfile(),
-            Config.spaceSmall,
-            //user name
-            TextFormField(
-              controller: _nameController,
-              keyboardType: TextInputType.text,
-              cursorColor: Config.primaryColor,
-              decoration: const InputDecoration(
-                hintText: 'Username',
-                labelText: 'Username',
-                alignLabelWithHint: true,
-                prefixIcon: Icon(Icons.person_2_outlined),
-                prefixIconColor: Config.primaryColor,
-              ),
-            ),
-            Config.spaceSmall,
-            TextFormField(
-              controller: _familyController,
-              keyboardType: TextInputType.text,
-              cursorColor: Config.primaryColor,
-              decoration: const InputDecoration(
-                hintText: 'UserFamily',
-                labelText: 'UserFamily',
-                alignLabelWithHint: true,
-                prefixIcon: Icon(Icons.person_2_outlined),
-                prefixIconColor: Config.primaryColor,
-              ),
-            ),
-            Config.spaceSmall,
-
-            TextFormField(
-              controller: _mobileController,
-              keyboardType: TextInputType.text,
-              cursorColor: Config.primaryColor,
-              decoration: const InputDecoration(
-                hintText: 'Mobile',
-                labelText: 'Mobile',
-                alignLabelWithHint: true,
-                prefixIcon: Icon(Icons.person_2_outlined),
-                prefixIconColor: Config.primaryColor,
-              ),
-            ),
-            Config.spaceSmall,
-            //age
-            TextFormField(
-              controller: _ageController,
-              keyboardType: TextInputType.text,
-              cursorColor: Config.primaryColor,
-              decoration: const InputDecoration(
-                hintText: 'Age',
-                labelText: 'Age',
-                alignLabelWithHint: true,
-                prefixIcon: Icon(Icons.person_2_outlined),
-                prefixIconColor: Config.primaryColor,
-              ),
-            ),
-            Config.spaceSmall,
-            //email
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              cursorColor: Config.primaryColor,
-              decoration: const InputDecoration(
-                hintText: 'Email Address',
-                labelText: 'Email',
-                alignLabelWithHint: true,
-                prefixIcon: Icon(Icons.email_outlined),
-                prefixIconColor: Config.primaryColor,
-              ),
-            ),
-            Config.spaceSmall,
-            TextFormField(
-              controller: _passController,
-              keyboardType: TextInputType.visiblePassword,
-              cursorColor: Config.primaryColor,
-              obscureText: obsecurePass,
-              decoration: InputDecoration(
-                  hintText: 'Password',
-                  labelText: 'Password',
+    return Expanded(
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              imageProfile(),
+              Config.spaceSmall,
+              //user name
+              TextFormField(
+                controller: _nameController,
+                keyboardType: TextInputType.text,
+                cursorColor: Config.primaryColor,
+                decoration: const InputDecoration(
+                  hintText: 'Username',
+                  labelText: 'Username',
                   alignLabelWithHint: true,
-                  prefixIcon: Icon(Icons.lock_outline),
+                  prefixIcon: Icon(Icons.person_2_outlined),
                   prefixIconColor: Config.primaryColor,
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          obsecurePass = !obsecurePass;
-                        });
-                      },
-                      icon: obsecurePass
-                          ? const Icon(
-                              Icons.visibility_off_outlined,
-                              color: Colors.black38,
-                            )
-                          : const Icon(
-                              Icons.visibility_outlined,
-                              color: Config.primaryColor,
-                            ))),
-            ),
-            Config.spaceSmall,
+                ),
+              ),
+              Config.spaceSmall,
+              TextFormField(
+                controller: _familyController,
+                keyboardType: TextInputType.text,
+                cursorColor: Config.primaryColor,
+                decoration: const InputDecoration(
+                  hintText: 'UserFamily',
+                  labelText: 'UserFamily',
+                  alignLabelWithHint: true,
+                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIconColor: Config.primaryColor,
+                ),
+              ),
+              Config.spaceSmall,
 
-            Button(
-                width: double.infinity,
-                title: 'Sign up',
-                onPressed: () async {
-                  setState(() {
-                    spinner = true;
-                  });
-                  signUp();
-                  // Navigator.of(context).pushNamed('main');
-                },
-                disable: false)
+              TextFormField(
+                controller: _mobileController,
+                keyboardType: TextInputType.text,
+                cursorColor: Config.primaryColor,
+                decoration: const InputDecoration(
+                  hintText: 'Mobile',
+                  labelText: 'Mobile',
+                  alignLabelWithHint: true,
+                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIconColor: Config.primaryColor,
+                ),
+              ),
+              Config.spaceSmall,
+              //age
+              TextFormField(
+                controller: _ageController,
+                keyboardType: TextInputType.text,
+                cursorColor: Config.primaryColor,
+                decoration: const InputDecoration(
+                  hintText: 'Age',
+                  labelText: 'Age',
+                  alignLabelWithHint: true,
+                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIconColor: Config.primaryColor,
+                ),
+              ),
+              Config.spaceSmall,
+              //email
+              TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                cursorColor: Config.primaryColor,
+                decoration: const InputDecoration(
+                  hintText: 'Email Address',
+                  labelText: 'Email',
+                  alignLabelWithHint: true,
+                  prefixIcon: Icon(Icons.email_outlined),
+                  prefixIconColor: Config.primaryColor,
+                ),
+              ),
+              Config.spaceSmall,
+              TextFormField(
+                controller: _passController,
+                keyboardType: TextInputType.visiblePassword,
+                cursorColor: Config.primaryColor,
+                obscureText: obsecurePass,
+                decoration: InputDecoration(
+                    hintText: 'Password',
+                    labelText: 'Password',
+                    alignLabelWithHint: true,
+                    prefixIcon: Icon(Icons.lock_outline),
+                    prefixIconColor: Config.primaryColor,
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obsecurePass = !obsecurePass;
+                          });
+                        },
+                        icon: obsecurePass
+                            ? const Icon(
+                                Icons.visibility_off_outlined,
+                                color: Colors.black38,
+                              )
+                            : const Icon(
+                                Icons.visibility_outlined,
+                                color: Config.primaryColor,
+                              ))),
+              ),
+              Config.spaceSmall,
+
+              Button(
+                  width: double.infinity,
+                  title: 'Sign up',
+                  onPressed: () async {
+                    setState(() {
+                      spinner = true;
+                    });
+                    signUp();
+                    // Navigator.of(context).pushNamed('main');
+                  },
+                  disable: false)
 
 
-          ],
+            ],
+          ),
         ),
       ),
     );
