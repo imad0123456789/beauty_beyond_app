@@ -39,7 +39,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       body:  SafeArea(
         child: Column(
           children: <Widget>[
-            AboutDoctor(),
+            AboutDoctor(
+            ),
             DetailBody(),
             const Spacer(),
             Padding(
@@ -50,6 +51,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
               onPressed: () {
                 //navigate to booking page
                 Navigator.of(context).pushNamed('booking_page');
+                /*
+                Navigator.of(context).pushNamed('booking_page',
+                arguments: {"doctor_id": doctor['doc_id']});
+
+                 */
               },
               disable: false,
             ),

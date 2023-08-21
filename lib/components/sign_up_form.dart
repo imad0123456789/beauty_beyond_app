@@ -73,6 +73,8 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
+
+
   Future addUserDetails(
       String name, String family, String email, int mobile, int age) async {
     await FirebaseFirestore.instance.collection('users').add({
@@ -81,7 +83,8 @@ class _SignUpFormState extends State<SignUpForm> {
       'email': email,
       'mobile number': mobile,
       'age': age,
-    });
+    }
+    ).then((value) {print ('add User Details successfully');});
   }
 
   @override
@@ -121,6 +124,7 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             Config.spaceSmall,
+
             TextFormField(
               controller: _mobileController,
               keyboardType: TextInputType.text,

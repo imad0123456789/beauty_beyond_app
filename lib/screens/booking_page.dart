@@ -2,6 +2,7 @@ import 'package:beauty_beyond_app/components/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../components/button.dart';
 import '../utils/config.dart';
@@ -14,6 +15,8 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -21,6 +24,9 @@ class _BookingPageState extends State<BookingPage> {
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected= false;
+
+
+
   @override
   Widget build(BuildContext context) {
     Config().init(context);
