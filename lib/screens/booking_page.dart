@@ -1,10 +1,12 @@
 import 'package:beauty_beyond_app/components/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../components/button.dart';
+import '../modals/booking_datatime_converted.dart';
 import '../utils/config.dart';
 
 class BookingPage extends StatefulWidget {
@@ -24,12 +26,25 @@ class _BookingPageState extends State<BookingPage> {
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected= false;
+  String? token;
 
 
+  Future<void> getToken() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    token = preferences.getString('token') ?? '';
+  }
+
+
+  @override
+  void initState(){
+    getToken();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return  Scaffold(
       appBar: const CustomAppBar(
         appTitle: 'Appointment',
@@ -119,7 +134,14 @@ class _BookingPageState extends State<BookingPage> {
               child: Button(
                 width : double.infinity,
                 title: 'Make Appointment',
-                onPressed: () {
+                onPressed: () async {
+                  final getData = DataConverted.getDate(_currentDay);
+                  final getDay = DataConverted.getDay(_currentDay.weekday);
+                  final getTime = DataConverted.getTime(_currentIndex!);
+
+                  final Booking =
+
+
                   Navigator.of(context).pushNamed('success_booking');
                 },
                 disable: _timeSelected && _dateSelected ? false : true ,

@@ -78,13 +78,18 @@ class _SignUpFormState extends State<SignUpForm> {
   Future addUserDetails(
       String name, String family, String email, int mobile, int age) async {
     await FirebaseFirestore.instance.collection('users').add({
+      //'UserId': name,
       'name': name,
       'family': family,
       'email': email,
       'mobile number': mobile,
       'age': age,
+      'type': 'user',
+      'Details': 'New User'
     }
-    ).then((value) {print ('add User Details successfully');});
+    ).then((value) {
+      print ('add User Details successfully');
+    });
   }
 
   @override
