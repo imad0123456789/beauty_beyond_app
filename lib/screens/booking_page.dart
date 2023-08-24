@@ -1,4 +1,6 @@
 import 'package:beauty_beyond_app/components/custom_appbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +20,7 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPageState extends State<BookingPage> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  final _auth = FirebaseAuth.instance;
 
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
@@ -34,6 +37,22 @@ class _BookingPageState extends State<BookingPage> {
     token = preferences.getString('token') ?? '';
   }
 
+  Future bookingAppointment(
+      String date, String day, String time, int doctor, int user, String token)
+  async {
+    await FirebaseFirestore.instance.collection('booking').add({
+      'Date': date,
+      'Day': day,
+      'Time': time,
+      'doctorId': doctor,
+      'userId': user,
+      'token': token,
+    }
+    ).then((value) {
+      print ('add User Details successfully');
+    });
+  }
+
 
   @override
   void initState(){
@@ -44,7 +63,7 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
-    final doctor = ModalRoute.of(context)!.settings.arguments as Map;
+    //final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return  Scaffold(
       appBar: const CustomAppBar(
         appTitle: 'Appointment',
@@ -139,8 +158,9 @@ class _BookingPageState extends State<BookingPage> {
                   final getDay = DataConverted.getDay(_currentDay.weekday);
                   final getTime = DataConverted.getTime(_currentIndex!);
 
-                  final Booking =
-
+                  bookingAppointment(
+                        getData, getDay, getTime, 22, 25, token!
+                      );
 
                   Navigator.of(context).pushNamed('success_booking');
                 },

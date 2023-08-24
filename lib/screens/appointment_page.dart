@@ -1,5 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/config.dart';
 
@@ -15,25 +18,41 @@ class _AppointmentPageState extends State<AppointmentPage> {
   FilterStatus status = FilterStatus.upcoming; // initial status
   Alignment _alignment = Alignment.centerLeft;
   List<dynamic> schedules = [
-    {
-      "doctor_name":"Kassem Maanaki",
-      "doctor_profile": "assets/doctor01.jpg",
-      "category":"Botox",
-      "status":FilterStatus.upcoming,
-    },
-    {
-      "doctor_name":"Zeinab Maanaki",
-      "doctor_profile": "assets/doctor02.jpg",
-      "category":"Filler",
-      "status":FilterStatus.complete,
-    },
-    {
-      "doctor_name":"Zeinab Maanaki",
-      "doctor_profile": "assets/doctor02.jpg",
-      "category":"General",
-      "status":FilterStatus.cancel,
-    }
+    // {
+    //   "doctor_name":"Kassem Maanaki",
+    //   "doctor_profile": "assets/doctor01.jpg",
+    //   "category":"Botox",
+    //   "status":FilterStatus.upcoming,
+    // },
+    // {
+    //   "doctor_name":"Zeinab Maanaki",
+    //   "doctor_profile": "assets/doctor02.jpg",
+    //   "category":"Filler",
+    //   "status":FilterStatus.complete,
+    // },
+    // {
+    //   "doctor_name":"Zeinab Maanaki",
+    //   "doctor_profile": "assets/doctor02.jpg",
+    //   "category":"General",
+    //   "status":FilterStatus.cancel,
+    // }
   ];
+
+  Future<void> getAppointments() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final token = preferences.getString('token') ?? '';
+    //final appointment = ;
+
+    setState(() {
+      //schedules= json.decoder(appointment);
+    });
+  }
+
+  @override
+  void initState(){
+    getAppointments();
+    super.initState();
+  }
 
 
   @override

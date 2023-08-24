@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final _auth = FirebaseAuth.instance;
   final _authE = FirebaseAuth.instance.currentUser?.email;
 
-  Map<String, dynamic> user = {};
+  //Map<String, dynamic> user = {};
 
   List<Map<String, dynamic>> medCat = [
     {
