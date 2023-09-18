@@ -228,7 +228,7 @@ class _HomePageState extends State<HomePage> {
               //list of top doctors
               Config.spaceSmall,
               Column(
-                children: List.generate(2, (index) {
+                children: List.generate(1, (index) {
                   return  DoctorCard(
                     route: 'doc_details',
                   );

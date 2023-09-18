@@ -22,7 +22,7 @@ class DoctorCard extends StatelessWidget {
                 width: Config.widthSize * 0.33,
                 child: Image.asset('assets/doctor01.jpg', fit: BoxFit.fill,),
               ),
-              Flexible(child: Padding(
+               Flexible(child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
