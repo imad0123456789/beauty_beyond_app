@@ -171,18 +171,22 @@ class DoctorInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children:  const <Widget>[
+    return const Row(
+      children:   <Widget>[
         InfoCard(
           label: 'Patient',
           value: '110',
         ),
-         SizedBox(width: 15, ),
+         SizedBox(
+           width: 15,
+         ),
         InfoCard(
           label: 'Experiences',
           value: '5 years',
         ),
-         SizedBox(width: 15, ),
+         SizedBox
+           (width: 15,
+         ),
         InfoCard(
           label: 'Rating',
           value: '4.5',
