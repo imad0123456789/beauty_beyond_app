@@ -64,7 +64,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget> [
-               Text(
+               const Text(
                 'Appointment Schedule',
                 textAlign: TextAlign.center,
                 style: TextStyle(
