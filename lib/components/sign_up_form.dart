@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:beauty_beyond_app/components/button.dart';
+import 'package:beauty_beyond_app/models/user_model.dart';
 import 'package:beauty_beyond_app/utils/config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,14 +44,9 @@ class _SignUpFormState extends State<SignUpForm> {
       if (newUser.user == null) {
         return;
       }
+
       // add user details
-      addUserDetails(
-        _nameController.text.trim(),
-        _familyController.text.trim(),
-        _emailController.text.trim(),
-        int.parse(_mobileController.text.trim()),
-        int.parse(_ageController.text.trim()),
-      );
+      _addUserDetails();
 
       // add profile image for new user
       if (imageBytes != null) {
@@ -73,22 +69,21 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
+  Future _addUserDetails() async {
+    final userModel = UserModel(
+        name: _nameController.text.trim(),
+        family: _familyController.text.trim(),
+        email: _emailController.text.trim(),
+        mobileNumber: _mobileController.text.trim(),
+        age: int.parse(_ageController.text.trim()),
+        type: UserType.user.name,
+        details: 'New User');
 
-
-  Future addUserDetails(
-      String name, String family, String email, int mobile, int age) async {
-    await FirebaseFirestore.instance.collection('users').add({
-      //'UserId': name,
-      'name': name,
-      'family': family,
-      'email': email,
-      'mobile number': mobile,
-      'age': age,
-      'type': 'user',
-      'Details': 'New User'
-    }
-    ).then((value) {
-      print ('add User Details successfully');
+    await FirebaseFirestore.instance
+        .collection('users')
+        .add(userModel.toDocument())
+        .then((value) {
+      print('Added User Details successfully');
     });
   }
 
@@ -112,7 +107,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   hintText: 'Username',
                   labelText: 'Username',
                   alignLabelWithHint: true,
-                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIcon: Icon(Icons.person_outline_outlined),
                   prefixIconColor: Config.primaryColor,
                 ),
               ),
@@ -125,7 +120,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   hintText: 'UserFamily',
                   labelText: 'UserFamily',
                   alignLabelWithHint: true,
-                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIcon: Icon(Icons.person_outline_outlined),
                   prefixIconColor: Config.primaryColor,
                 ),
               ),
@@ -139,7 +134,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   hintText: 'Mobile',
                   labelText: 'Mobile',
                   alignLabelWithHint: true,
-                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIcon: Icon(Icons.person_outline_outlined),
                   prefixIconColor: Config.primaryColor,
                 ),
               ),
@@ -153,7 +148,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   hintText: 'Age',
                   labelText: 'Age',
                   alignLabelWithHint: true,
-                  prefixIcon: Icon(Icons.person_2_outlined),
+                  prefixIcon: Icon(Icons.person_outline_outlined),
                   prefixIconColor: Config.primaryColor,
                 ),
               ),
@@ -212,8 +207,6 @@ class _SignUpFormState extends State<SignUpForm> {
                     // Navigator.of(context).pushNamed('main');
                   },
                   disable: false)
-
-
             ],
           ),
         ),

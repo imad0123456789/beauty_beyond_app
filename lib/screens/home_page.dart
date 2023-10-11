@@ -1,10 +1,14 @@
 import 'package:beauty_beyond_app/components/appointment_card.dart';
 import 'package:beauty_beyond_app/components/doctor_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
+import '../models/appointment_model.dart';
+import '../models/doctor_model.dart';
 import '../utils/config.dart';
 
 late User signedInUser;
@@ -22,24 +26,24 @@ class _HomePageState extends State<HomePage> {
 
   //Map<String, dynamic> user = {};
 
-  List<Map<String, dynamic>> medCat = [
-    {
-      "icon": FontAwesomeIcons.userDoctor,
-      "category": "Preliminary",
-    },
-    {
-      "icon": FontAwesomeIcons.syringe,
-      "category": "Botox",
-    },
-    {
-      "icon": FontAwesomeIcons.syringe,
-      "category": "Filler",
-    },
-    {
-      "icon": FontAwesomeIcons.userDoctor,
-      "category": "Another",
-    },
-  ];
+  // List<Map<String, dynamic>> medCat = [
+  //   {
+  //     "icon": FontAwesomeIcons.userDoctor,
+  //     "category": "Preliminary",
+  //   },
+  //   {
+  //     "icon": FontAwesomeIcons.syringe,
+  //     "category": "Botox",
+  //   },
+  //   {
+  //     "icon": FontAwesomeIcons.syringe,
+  //     "category": "Filler",
+  //   },
+  //   {
+  //     "icon": FontAwesomeIcons.userDoctor,
+  //     "category": "Another",
+  //   },
+  // ];
 
   /*
   Future<void> getData() async {
@@ -66,6 +70,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getCurrentUser();
+    getDoctors();
+    getTodayAppointments();
   }
 
   void getCurrentUser() {
@@ -78,6 +84,49 @@ class _HomePageState extends State<HomePage> {
     } catch (error) {
       print(error);
     }
+  }
+
+  bool _loadingDoctors = false;
+  List<DoctorModel> _doctors = [];
+
+  getDoctors() async {
+    print("Loading doctors ...");
+    setState(() {
+      _loadingDoctors = true;
+    });
+    final query = await FirebaseFirestore.instance
+        .collection('doctors')
+        .get()
+        .then((value) {
+      final documents = value.docs;
+      _doctors = documents.map((e) => DoctorModel.fromDocument(e)).toList();
+      setState(() {
+        _loadingDoctors = false;
+      });
+    });
+  }
+
+  bool _loadingAppointmnets = false;
+  List<AppointmentModel> appointments = [];
+
+  getTodayAppointments() async {
+    setState(() {
+      _loadingAppointmnets = true;
+    });
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('MM/dd/yyyy').format(now);
+    await FirebaseFirestore.instance
+        .collection('booking')
+        .where("Date", isEqualTo: formattedDate)
+        .get()
+        .then((value) {
+      final documents = value.docs;
+      appointments =
+          (documents.map((e) => AppointmentModel.fromDocument(e)).toList());
+      setState(() {
+        _loadingAppointmnets = false;
+      });
+    });
   }
 
   Widget imageProfile() {
@@ -141,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                     )
 
                      */
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   imageProfile(),
@@ -178,7 +227,8 @@ class _HomePageState extends State<HomePage> {
                 height: Config.heightSize * 0.05,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: List<Widget>.generate(medCat.length, (index) {
+                  children:
+                      List<Widget>.generate(categoriesIcons.length, (index) {
                     return Card(
                       margin: const EdgeInsets.only(right: 20),
                       color: Config.primaryColor,
@@ -188,12 +238,13 @@ class _HomePageState extends State<HomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            FaIcon(medCat[index]['icon'], color: Colors.white),
+                            FaIcon(categoriesIcons[index].icon,
+                                color: Colors.white),
                             const SizedBox(
                               width: 20,
                             ),
                             Text(
-                              medCat[index]['category'],
+                              categoriesIcons[index].name.name,
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -216,7 +267,33 @@ class _HomePageState extends State<HomePage> {
               ),
               Config.spaceSmall,
               //display appointment card
-              const AppointmentCard(),
+              _loadingAppointmnets
+                  ? const CircularProgressIndicator()
+                  : Column(
+                      children: List.generate(appointments.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: AppointmentCard(
+                            appointment: appointments[index],
+                            onActionDone: () {
+                              setState(() {
+                                getTodayAppointments();
+                              });
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+              // _loadingAppointmnets
+              //     ? CircularProgressIndicator()
+              //     : AppointmentCard(
+              //         appointment: appointments[0],
+              //         onActionDone: () {
+              //           setState(() {
+              //             getTodayAppointments();
+              //           });
+              //         },
+              //       ),
               Config.spaceSmall,
               const Text(
                 'Top Doctors',
@@ -227,13 +304,16 @@ class _HomePageState extends State<HomePage> {
               ),
               //list of top doctors
               Config.spaceSmall,
-              Column(
-                children: List.generate(1, (index) {
-                  return  DoctorCard(
-                    route: 'doc_details',
-                  );
-                }),
-              )
+              _loadingDoctors
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: List.generate(_doctors.length, (index) {
+                        return DoctorCard(
+                          route: 'doc_details',
+                          doctor: _doctors[index],
+                        );
+                      }),
+                    )
             ],
           ),
         ),

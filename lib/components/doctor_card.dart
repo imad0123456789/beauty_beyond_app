@@ -1,8 +1,13 @@
+import 'package:beauty_beyond_app/models/doctor_model.dart';
 import 'package:beauty_beyond_app/utils/config.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/doctor_details.dart';
+
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({Key? key, required this.route,}) : super(key: key);
+  final DoctorModel doctor;
+  const DoctorCard({Key? key, required this.route, required this.doctor})
+      : super(key: key);
 
   final String route;
 
@@ -20,39 +25,54 @@ class DoctorCard extends StatelessWidget {
             children: [
               SizedBox(
                 width: Config.widthSize * 0.33,
-                child: Image.asset('assets/doctor01.jpg', fit: BoxFit.fill,),
+                child: Image.asset(
+                  'assets/doctor01.jpg',
+                  fit: BoxFit.fill,
+                ),
               ),
-               const Flexible(child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              Flexible(
+                  child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  <Widget> [
-                     Text(
-                    'Dr Kassem Mannaki',
-                      style: TextStyle(
+                  children: <Widget>[
+                    Text(
+                      doctor.name,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                     Text(
-                      'Botox',
-                      style: TextStyle(
+                    Text(
+                      doctor.category.name,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                     Spacer(),
+                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children:  <Widget> [
-                        Icon(Icons.star_border, color: Colors.yellow, size: 16,),
-                        Spacer(flex: 1, ),
-                        Text('4.5'),
-                        Spacer(flex: 1, ),
-                        Text('Reviews'),
-                        Spacer(flex: 1, ),
-                        Text('(20)'),
-                        Spacer(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.star_border,
+                          color: Colors.yellow,
+                          size: 16,
+                        ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Text("${doctor.rating}"),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        const Text('Reviews'),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Text('(${doctor.reviews})'),
+                        const Spacer(
                           flex: 7,
                         ),
                       ],
@@ -64,10 +84,13 @@ class DoctorCard extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Navigator.of(context).pushNamed(route);
+          // Navigator.of(context).pushNamed(route, arguments: doctor);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => DoctorDetails(
+                    doctor: doctor,
+                  )));
         },
       ),
-
     );
   }
 }

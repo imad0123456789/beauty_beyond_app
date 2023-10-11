@@ -1,14 +1,40 @@
 import 'package:beauty_beyond_app/utils/config.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../models/appointment_model.dart';
+
 class AppointmentCard extends StatefulWidget {
-  const AppointmentCard({Key? key}) : super(key: key);
+  final AppointmentModel appointment;
+  final Function() onActionDone;
+  const AppointmentCard({Key? key, required this.appointment, required this.onActionDone})
+      : super(key: key);
 
   @override
   State<AppointmentCard> createState() => _AppointmentCardState();
 }
 
 class _AppointmentCardState extends State<AppointmentCard> {
+  cancelAppointment() async {
+    await FirebaseFirestore.instance
+        .collection('booking')
+        .doc(widget.appointment.id)
+        .update({"status": AppointmentStatus.canceled.name});
+    setState(() {
+      widget.onActionDone();
+    });
+  }
+
+  completeAppointment() async {
+    await FirebaseFirestore.instance
+        .collection('booking')
+        .doc(widget.appointment.id)
+        .update({"status": AppointmentStatus.completed.name});
+    setState(() {
+      widget.onActionDone();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,8 +45,8 @@ class _AppointmentCardState extends State<AppointmentCard> {
       ),
       child: Material(
         color: Colors.transparent,
-        child:
-        Padding(padding: const EdgeInsets.all(20),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
               Row(
@@ -34,17 +60,19 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text('Dr Kassem Mannaki',
-                        style: TextStyle(
+                    children: <Widget>[
+                      Text(
+                        widget.appointment.doctorName,
+                        style: const TextStyle(
                           color: Colors.white,
-                        ),),
-                      SizedBox(
+                        ),
+                      ),
+                      const SizedBox(
                         height: 2,
                       ),
                       Text(
-                        'Botox & Filler',
-                        style: TextStyle(
+                        widget.appointment.doctorCategory.name,
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
                       ),
@@ -54,34 +82,44 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
               Config.spaceSmall,
               //Schedule info
-              const ScheduleCard(),
+              ScheduleCard(
+                appointment: widget.appointment,
+              ),
               Config.spaceSmall,
               //action button
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () async {
+                        await cancelAppointment();
+                      },
                     ),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    onPressed: () {},
                   ),
+                  const SizedBox(
+                    width: 20,
                   ),
-                  const SizedBox(width: 20,),
-                  Expanded(child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        'Complete',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onPressed: () async {
+                        await completeAppointment();
+                      },
                     ),
-                    child: const Text(
-                      'Completed',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                    onPressed: () {},
-                  ),
                   ),
                 ],
               ),
@@ -94,7 +132,8 @@ class _AppointmentCardState extends State<AppointmentCard> {
 }
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({Key? key}) : super(key: key);
+  final AppointmentModel appointment;
+  const ScheduleCard({Key? key, required this.appointment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -107,26 +146,37 @@ class ScheduleCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const <Widget>[
-           Icon (Icons.calendar_today,
+        children: <Widget>[
+          const Icon(
+            Icons.calendar_today,
             color: Colors.white,
             size: 15,
           ),
-           SizedBox(width: 5,),
-          Text(
-            'Monday, 11/28/2023',
-            style:  TextStyle(color: Colors.white),
+          const SizedBox(
+            width: 5,
           ),
-           SizedBox(width: 20,),
-           Icon (Icons.access_alarm,
+          Text(
+            '${appointment.day}, ${appointment.date}',
+            style: const TextStyle(color: Colors.white),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          const Icon(
+            Icons.access_alarm,
             color: Colors.white,
             size: 17,
           ),
-           SizedBox(width: 5,),
-          Flexible(child: Text('2:00 PM', style: TextStyle(color: Colors.white),))
+          const SizedBox(
+            width: 5,
+          ),
+          Flexible(
+              child: Text(
+            appointment.time,
+            style: const TextStyle(color: Colors.white),
+          ))
         ],
       ),
     );
   }
 }
-

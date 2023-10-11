@@ -54,10 +54,11 @@ class MyApp extends StatelessWidget {
         // this is initial rout of the app
         // which is auth page (login and sign up)
         '/':(context) => const Auth(),
+        
         'auth' :(context) => const AuthPage(),
         'main': (context) => const MainLayout(),
-        'doc_details': (context) => const DoctorDetails(),
-        'booking_page': (context) => const BookingPage(),
+        // 'doc_details': (context) => const DoctorDetails(),
+        // 'booking_page': (context) => const BookingPage(),
         'success_booking': (context) => const AppointmentBooked(),
       },
       //home: const MyHomePage(),
