@@ -26,7 +26,7 @@ class DoctorCard extends StatelessWidget {
               SizedBox(
                 width: Config.widthSize * 0.33,
                 child: Image.asset(
-                  'assets/doctor01.jpg',
+                  'assets/doctor02.jpg',
                   fit: BoxFit.fill,
                 ),
               ),

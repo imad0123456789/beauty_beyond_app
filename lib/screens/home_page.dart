@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../models/appointment_model.dart';
 import '../models/doctor_model.dart';
+import '../utils/authentication.dart';
 import '../utils/config.dart';
 
 late User signedInUser;
@@ -118,6 +119,7 @@ class _HomePageState extends State<HomePage> {
     await FirebaseFirestore.instance
         .collection('booking')
         .where("Date", isEqualTo: formattedDate)
+        .where("userId", isEqualTo: AthenticationData.userData!.id)
         .get()
         .then((value) {
       final documents = value.docs;
@@ -181,6 +183,7 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   /*
                     const SizedBox(
                       child: CircleAvatar(
@@ -212,9 +215,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
+/*
               Config.spaceSMedium,
               //category listing
+
               const Text(
                 'Category',
                 style: TextStyle(
@@ -257,6 +261,7 @@ class _HomePageState extends State<HomePage> {
                   }),
                 ),
               ),
+              */
               Config.spaceSmall,
               const Text(
                 'Appointment Today',
