@@ -45,11 +45,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
     setState(() {
       _loadingAppointmnets = true;
     });
-    await FirebaseFirestore.instance
-        .collection('booking')
-        .where("userId", isEqualTo: AthenticationData.userData!.id)
-        .get()
-        .then((value) {
+    Future<QuerySnapshot<Map<String, dynamic>>> query =
+        AthenticationData.userData!.type == 'user'
+            ? FirebaseFirestore.instance
+                .collection('booking')
+                .where("userId", isEqualTo: AthenticationData.userData!.id)
+                .get()
+            : FirebaseFirestore.instance
+                .collection('booking')
+                .where("doctorId",
+                    isEqualTo: AthenticationData.userData!.doctorId)
+                .get();
+    await query.then((value) {
       final documents = value.docs;
       appointments =
           (documents.map((e) => AppointmentModel.fromDocument(e)).toList());
@@ -260,6 +267,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                               builder: (context) => BookingPage(
+                                              
                                                     appointmentForReschedule:
                                                         _schedule,
                                                   )));

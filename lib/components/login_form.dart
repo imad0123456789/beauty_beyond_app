@@ -24,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
   bool obsecurePass = true;
   bool spinner = false;
 
-  Future signInAndGetUserData() async {
+  Future signInAndGetUserDataThenNavigate() async {
     print("LOGGINNNNN");
     final user = await _auth.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
@@ -44,6 +44,9 @@ class _LoginFormState extends State<LoginForm> {
 
     // set data
     AthenticationData.userData = userModel;
+
+    Navigator.of(context).pushNamed('main');
+
   }
 
   @override
@@ -110,9 +113,8 @@ class _LoginFormState extends State<LoginForm> {
                     spinner = true;
                   });
                   try {
-                    await signInAndGetUserData();
+                    await signInAndGetUserDataThenNavigate();
 
-                    Navigator.of(context).pushNamed('main');
                   } catch (error) {
                     print(error);
                     spinner = false;

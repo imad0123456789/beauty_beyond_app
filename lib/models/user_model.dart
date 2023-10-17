@@ -9,6 +9,7 @@ class UserModel {
   final int age;
   final String type;
   final String details;
+  final String? doctorId;
 
   const UserModel({
     this.id,
@@ -19,6 +20,7 @@ class UserModel {
     required this.age,
     required this.type,
     required this.details,
+    this.doctorId,
   });
 
   factory UserModel.fromDocument(
@@ -33,6 +35,7 @@ class UserModel {
       age: data['age'],
       type: data['type'],
       details: data['details'],
+      doctorId: data['doctorId'],
     );
   }
 
@@ -43,7 +46,7 @@ class UserModel {
         "mobileNumber": mobileNumber,
         "age": age,
         "type": type,
-        "details": details,
+        "details": details
       };
 }
 

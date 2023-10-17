@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/appointment_model.dart';
 
+
 class AppointmentCard extends StatefulWidget {
   final AppointmentModel appointment;
   final Function() onActionDone;
@@ -51,9 +52,22 @@ class _AppointmentCardState extends State<AppointmentCard> {
             children: <Widget>[
               Row(
                 children: [
+                  /*
+                  SizedBox(
+                    width: Config.widthSize * 0.33,
+                    child: Image.network(
+                      doctor.image,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+
+                   */
+                  /*
                   const CircleAvatar(
                     backgroundImage: AssetImage('assets/doctor01.jpg'),
                   ),
+
+                   */
                   const SizedBox(
                     width: 10,
                   ),

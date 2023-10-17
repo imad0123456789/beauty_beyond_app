@@ -17,8 +17,7 @@ import '../utils/config.dart';
 class BookingPage extends StatefulWidget {
   final DoctorModel? doctor;
   final AppointmentModel? appointmentForReschedule;
-  const BookingPage(
-      {Key? key, this.doctor, this.appointmentForReschedule})
+  const BookingPage({Key? key, this.doctor, this.appointmentForReschedule})
       : super(key: key);
 
   @override
@@ -44,6 +43,25 @@ class _BookingPageState extends State<BookingPage> {
   }
 
   bool _lodingBook = false;
+
+  List<AppointmentModel> doctorAppointments = [];
+
+  Future loadDoctorAppointments() async {
+    print("APPPPPP");
+    final query = await FirebaseFirestore.instance
+        .collection('booking')
+        .where('doctorId',
+            isEqualTo: widget.appointmentForReschedule != null
+                ? widget.appointmentForReschedule?.doctorId
+                : widget.doctor?.id)
+        .where("status", isEqualTo: AppointmentStatus.upcoming.name)
+        .get()
+        .then((value) {
+      final documents = value.docs;
+      doctorAppointments =
+          documents.map((e) => AppointmentModel.fromDocument(e)).toList();
+    });
+  }
 
   Future bookingAppointment() async {
     setState(() {
@@ -86,6 +104,7 @@ class _BookingPageState extends State<BookingPage> {
   @override
   void initState() {
     getToken();
+    loadDoctorAppointments();
     print(AthenticationData.userData);
     super.initState();
   }
@@ -169,7 +188,7 @@ class _BookingPageState extends State<BookingPage> {
                         ),
                       ),
                     );
-                  }, childCount: 12),
+                  }, childCount: 10),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4, childAspectRatio: 1.5),
                 ),
@@ -180,9 +199,23 @@ class _BookingPageState extends State<BookingPage> {
                 width: double.infinity,
                 title: 'Make Appointment',
                 onPressed: () async {
-                  await bookingAppointment();
+                  if (doctorAppointments.any((e) =>
+                      e.date == DataConverted.getDate(_currentDay) &&
+                      e.time == DataConverted.getTime(_currentIndex!))) {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            alignment: Alignment.center,
+                            title: Text('Sorry, this time is already booked !, try another time'),
+                            backgroundColor: Colors.pinkAccent,
+                          );
+                        });
+                  } else {
+                    await bookingAppointment();
 
-                  Navigator.of(context).pushNamed('success_booking');
+                    Navigator.of(context).pushNamed('success_booking');
+                  }
                 },
                 disable: _timeSelected && _dateSelected ? false : true,
               ),

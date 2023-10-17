@@ -119,12 +119,15 @@ class _HomePageState extends State<HomePage> {
     await FirebaseFirestore.instance
         .collection('booking')
         .where("Date", isEqualTo: formattedDate)
-        .where("userId", isEqualTo: AthenticationData.userData!.id)
+        .where("userId", isEqualTo: AthenticationData.userData!.id )
         .get()
         .then((value) {
       final documents = value.docs;
-      appointments =
-          (documents.map((e) => AppointmentModel.fromDocument(e)).toList());
+      appointments = (documents
+          .where((e) => e.data()['status'] != AppointmentStatus.completed)
+          .toList()
+          .map((e) => AppointmentModel.fromDocument(e))
+          .toList());
       setState(() {
         _loadingAppointmnets = false;
       });
@@ -177,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '$_authE!',
+                    AthenticationData.userData?.name ?? '',
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -300,6 +303,8 @@ class _HomePageState extends State<HomePage> {
               //         },
               //       ),
               Config.spaceSmall,
+
+              if(AthenticationData.userData?.type == 'user')
               const Text(
                 'Top Doctors',
                 style: TextStyle(
@@ -309,6 +314,8 @@ class _HomePageState extends State<HomePage> {
               ),
               //list of top doctors
               Config.spaceSmall,
+
+              if(AthenticationData.userData?.type == 'user')
               _loadingDoctors
                   ? const Center(child: CircularProgressIndicator())
                   : Column(
