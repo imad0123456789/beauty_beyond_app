@@ -1,0 +1,46 @@
+
+<div class="nav">
+
+  <app-navbar></app-navbar>
+</div>
+
+
+<div>
+  <router-outlet></router-outlet>
+</div>
+
+
+
+<div *ngIf="fireService.auth.currentUser==null">
+
+  <input placeholder="email" [(ngModel)]="email" type="email">
+  <br>
+  <input placeholder="password" [(ngModel)]="password" type="password">
+  <br>
+  <button (click)="fireService.signIn(email, password )">Sign In</button>
+  <br>
+  <button (click)="fireService.register(email,password)">Sign Up</button>
+
+
+</div>
+
+<div *ngIf="fireService.auth.currentUser">
+
+  <h1>Welcom, {{fireService.auth.currentUser.email}}
+    <img (click)="fileInput.click()" style="max-height: 60px;" [src]="fireService.currentlySignedInUserAvatarURL">
+    <input (change)="fireService.updateUserImage($event)" hidden #fileInput type="file">
+    <br>
+    <button (click)="fireService.signOut()">Sign out</button>
+
+
+  </h1>
+  <input [(ngModel)]="sendThisMessage" >
+
+  <button (click)="fireService.sendMessage(sendThisMessage)">send message </button>
+
+  <p *ngFor="let m of fireService.messages">
+    {{m | json}}
+
+  </p>
+
+</div>
