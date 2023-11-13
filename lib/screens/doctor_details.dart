@@ -84,11 +84,25 @@ class AboutDoctor extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: <Widget>[
+            SizedBox(
+              width: Config.widthSize * 0.33,
+              child: Image.network(
+                doctor.image,
+                fit: BoxFit.fill,
+              ),
+            ),
+            /*
             const CircleAvatar(
               radius: 65,
-              backgroundImage: AssetImage('assets/doctor01.jpg'),
+              backgroundImage:
+               Image.network(
+                doctor.image,
+                fit: BoxFit.fill,
+              ),
               backgroundColor: Colors.white,
             ),
+
+             */
             Config.spaceSMedium,
             Text(
               doctor.name,
