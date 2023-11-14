@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@angular/fire": "^16.0.0",
+    "angular-calendar-scheduler": "^16.0.0",
+    "date-fns": "^2.30.0",
     "firebase": "^10.5.2"
   }
 }
