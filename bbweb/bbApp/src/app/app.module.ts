@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from "@angular/forms";
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +13,8 @@ import { BookingComponent } from './components/booking/booking.component';
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { AboutusComponent } from './components/aboutus/aboutus.component';
+import { PricesComponent } from './components/prices/prices.component';
 
 
 @NgModule({
@@ -23,12 +26,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     BookingComponent,
     DoctorsComponent,
     NotFoundComponent,
-    NavbarComponent
+    NavbarComponent,
+    AboutusComponent,
+    PricesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

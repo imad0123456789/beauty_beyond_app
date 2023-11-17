@@ -1,1 +1,19 @@
-<p>login works!</p>
+
+
+<div class="body">
+  <h2 class="text-center">LogIn</h2>
+  <form #f="ngForm" (ngSubmit)="login(f)">
+    <input ngModel name="email" #email="ngModel" type="email" class="form-control" placeholder="Email" required email>
+    <div class="alert alert-danger" *ngIf="email.touched && email.errors">Your input does not match email format</div>
+    <br/>
+
+    <input ngModel name="password" #password="ngModel" type="password" class="form-control" placeholder="Password" required minlength="6">
+    <div class="alert alert-danger" *ngIf="password.touched && password.errors">Password should be 6+ charachters</div>
+    <br/>
+
+    <button class="btn btn-primary" [disabled]="f.invalid ">Login</button>
+
+  </form>
+
+</div>
+
