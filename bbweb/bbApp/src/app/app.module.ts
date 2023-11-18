@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from "@angular/forms";
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -16,6 +14,12 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { PricesComponent } from './components/prices/prices.component';
+import { BookingFormComponent } from './components/booking-form/booking-form.component';
+import { BookingListComponent } from './components/booking-list/booking-list.component';
+import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "@ng-bootstrap/ng-bootstrap/environment";
+import {firebaseconfig} from "../../firebaseconfig";
+import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 
 
 @NgModule({
@@ -29,13 +33,17 @@ import { PricesComponent } from './components/prices/prices.component';
     NotFoundComponent,
     NavbarComponent,
     AboutusComponent,
-    PricesComponent
+    PricesComponent,
+    BookingFormComponent,
+    BookingListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
+    AngularFireModule.initializeApp(firebaseconfig),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

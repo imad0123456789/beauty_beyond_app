@@ -1,7 +1,7 @@
 export const firebaseconfig = {
 
   apiKey: "AIzaSyACINTDtcQRYY8DxDL8uCPhJ7WdgEQduO4",
-  authDomain: "bb-app-b5395.firebaseapp.com",
+  authDomain: "bb-app-b5395.firebaseangpp.com",
   projectId: "bb-app-b5395",
   storageBucket: "bb-app-b5395.appspot.com",
   messagingSenderId: "bb-app-b5395.appspot.com",
