@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BookingService } from '../booking.service';
+//import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-booking',
@@ -9,10 +9,12 @@ import { BookingService } from '../booking.service';
 export class BookingComponent {
   booking = { name: '', date: '', time: '' };
 
-  constructor(private bookingService: BookingService) {}
+  constructor(
+    //private bookingService: BookingService
+    ) {}
 
   submitBooking() {
-    this.bookingService.addBooking(this.booking);
+    // this.bookingService.addBooking(this.booking);
     // You can also reset the form or navigate to another page after submitting
   }
 

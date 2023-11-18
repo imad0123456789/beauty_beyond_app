@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from  "firebase/compat/app";
 import 'firebase/compat/firestore'
 
-import * as Config from '../../firebaseconfig.js'
+import * as Config from '../../firebaseconfig'
 
 @Injectable({
   providedIn: 'root'
