@@ -2,13 +2,13 @@
 
 <form (ngSubmit)="submitBooking()">
   <label for="name">Name:</label>
-  <input type="text" id="name" [(ngModel)]="booking.name" required>
+  <input type="text" id="name" [(ngModel)]="booking.userId" required>
 
   <label for="date">Date:</label>
-  <input type="date" id="date" [(ngModel)]="booking.date" required>
+  <input type="date" id="date" [(ngModel)]="booking.Date" required>
 
   <label for="time">Time:</label>
-  <input type="time" id="time" [(ngModel)]="booking.time" required>
+  <input type="time" id="time" [(ngModel)]="booking.Time" required>
 
   <button type="submit">Book Now</button>
 </form>
