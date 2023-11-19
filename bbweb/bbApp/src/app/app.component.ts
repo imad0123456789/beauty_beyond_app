@@ -10,7 +10,8 @@ export class AppComponent {
   title = 'bbApp';
 
 
-  constructor(private fireService: FireService) {
-
+  constructor(
+    private fireService: FireService
+   ) {
   }
 }

@@ -9,7 +9,7 @@ export class BookingService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  addBooking(booking: any) {
-    return this.firestore.collection('bookings').add(booking);
+  async addBooking(booking: any) {
+    return await this.firestore.collection('bookings').add(booking);
   }
 }

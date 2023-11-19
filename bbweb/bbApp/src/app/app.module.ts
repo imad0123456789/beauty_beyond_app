@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from "@angular/forms";
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+import { BrowserModule } from '@angular/platform-browser';
+import {FormsModule} from "@angular/forms";
+import { AppRoutingModule } from './app-routing.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -25,7 +26,7 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    /*HomeComponent,
     LoginComponent,
     SignupComponent,
     BookingComponent,
@@ -35,15 +36,16 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
     AboutusComponent,
     PricesComponent,
     BookingFormComponent,
-    BookingListComponent
+    BookingListComponent*/
   ],
   imports: [
-    BrowserModule,
+   /* BrowserModule,
     AppRoutingModule,
-    NgbModule,
     FormsModule,
+    NgbModule,
     AngularFireModule.initializeApp(firebaseconfig),
     AngularFirestoreModule
+    */
   ],
   providers: [],
   bootstrap: [AppComponent]
