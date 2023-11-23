@@ -8,6 +8,8 @@ import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {DoctorsComponent} from "./components/doctors/doctors.component";
 import {AboutusComponent} from "./components/aboutus/aboutus.component";
 import {PricesComponent} from "./components/prices/prices.component";
+import {BookingFormComponent} from "./components/booking-form/booking-form.component";
+import {NavbarComponent} from "./components/navbar/navbar.component";
 
 const routes: Routes = [
   {path: '', component:HomeComponent },
@@ -17,6 +19,7 @@ const routes: Routes = [
   {path: 'doctors', component:DoctorsComponent },
   {path: 'aboutus', component:AboutusComponent },
   {path: 'prices', component:PricesComponent },
+  {path: 'navbar', component:NavbarComponent },
   {path: '**', component:NotFoundComponent }
 
 ];

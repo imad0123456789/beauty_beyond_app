@@ -1,6 +1,6 @@
 
-export interface BookingInterface {
-  Date?: Date,
+export interface Booking {
+  Date?: string,
   day?: string,
   Time?: string,
   DoctorCategory? : string,

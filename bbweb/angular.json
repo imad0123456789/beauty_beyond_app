@@ -7,13 +7,19 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "standalone": false
+          "standalone": false,
+          "name": "",
+          "project": ""
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "name": "",
+          "project": ""
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "name": "",
+          "project": ""
         }
       },
       "root": "",
@@ -41,6 +47,7 @@
           },
           "configurations": {
             "production": {
+              "browserTarget": "bbweb:build:production",
               "budgets": [
                 {
                   "type": "initial",
@@ -56,6 +63,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "browserTarget": "bbweb:build:development",
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -67,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "bbweb:build:production"
+              "browserTarget": "bbweb:build:production"
             },
             "development": {
-              "buildTarget": "bbweb:build:development"
+              "browserTarget": "bbweb:build:development"
             }
           },
           "defaultConfiguration": "development"
