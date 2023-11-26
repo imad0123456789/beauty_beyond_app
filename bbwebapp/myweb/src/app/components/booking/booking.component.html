@@ -1,1 +1,50 @@
-<p>booking works!</p>
+<div class="container">
+<p>Booking Page</p>
+
+
+  <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" [markDisabled]="isWeekend" [minDate]="model"></ngb-datepicker>
+
+
+
+  <hr />
+<button class="btn btn-sm btn-outline-primary me-2" (click)="model = today">Select Today</button>
+<button class="btn btn-sm btn-outline-primary me-2" (click)="dp.navigateTo()">To current month</button>
+<button class="btn btn-sm btn-outline-primary me-2" (click)="dp.navigateTo({ year: 2024, month: 2 })"
+>To Feb 2024</button>
+<hr />
+
+<div>
+  <label for="hourSelect">Select Hour:</label>
+  <select id="hourSelect" class="form-select" [(ngModel)]="selectedHour">
+    <option *ngFor="let hour of availableHours" [value]="hour">{{ hour }}</option>
+  </select>
+</div>
+
+  <hr />
+  <div>
+    <label for="doctorSelect">Select Doctor:</label>
+    <select id="doctorSelect" class="form-select" [(ngModel)]="selectedDoctor">
+      <option *ngFor="let doctor of availableDoctors" [value]="doctor">{{ doctor }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="categorySelect">Category</label>
+    <select id="categorySelect" class="form-select" [(ngModel)]="selectedCategory">
+      <option *ngFor="let category of availableCategory" [value]="category">{{ category }}</option>
+    </select>
+  </div>
+
+
+<hr />
+<div>
+<button type="button" class="btn btn-primary" (click)="book()"> Booking </button>
+  </div>
+<hr />
+
+
+
+<pre>Month: {{ date.month }}.{{ date.year }}</pre>
+<pre>Model: {{ model | json }}</pre>
+
+  </div>

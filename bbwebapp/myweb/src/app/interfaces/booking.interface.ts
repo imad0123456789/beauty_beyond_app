@@ -1,6 +1,9 @@
 
 export interface Booking {
-    Date?: string,
+
+    id?: string;
+    year?: string,
+    month?: string,
     day?: string,
     Time?: string,
     DoctorCategory? : string,
@@ -9,4 +12,3 @@ export interface Booking {
     status?: string,
     userId: string,
   }
-  

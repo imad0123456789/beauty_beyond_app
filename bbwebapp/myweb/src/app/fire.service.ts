@@ -17,13 +17,5 @@ export class FireService {
     this.firebaseApplication = firebase.initializeApp(config.firebaseconfig)
     this.firestore = firebase.firestore();
 
-
-    this.firestore.collection('hihi').add(
-      { 
-        myfield: " Hello Hello "
-      }
-    )
-
-
    }
 }

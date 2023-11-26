@@ -8,6 +8,8 @@ import { DoctorsComponent } from './components/doctors/doctors.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { PricesComponent } from './components/prices/prices.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import {BookingCalendarComponent} from "./components/booking-calendar/booking-calendar.component";
+import {BookingFormComponent} from "./components/booking-form/booking-form.component";
 
 const routes: Routes = [
   {path: '', component:HomeComponent },
@@ -17,6 +19,8 @@ const routes: Routes = [
   {path: 'doctors', component:DoctorsComponent },
   {path: 'aboutus', component:AboutusComponent },
   {path: 'prices', component:PricesComponent },
+  {path: 'calendar', component:BookingCalendarComponent },
+  {path: 'schedule', component:BookingFormComponent },
   {path: '**', component:NotFoundComponent }
 ];
 

@@ -1,0 +1,23 @@
+<!-- src/app/booking-calendar/booking-calendar.component.html -->
+<div>
+  <div>
+    <label for="date">Select a date:</label>
+    <input type="date" id="date" [(ngModel)]="selectedDate" (change)="onSelectDate(selectedDate)" required>
+  </div>
+
+  <div>
+    <label for="hour">Select an hour:</label>
+    <input type="time" id="hour" [(ngModel)]="selectedHour" (change)="onSelectHour(selectedHour)" required>
+  </div>
+
+  <button (click)="onBook()">Book</button>
+</div>
+
+<div>
+  <h2>Bookings</h2>
+  <ul>
+    <li *ngFor="let booking of bookings">
+      {{ booking.date }} at {{ booking.hour }}
+    </li>
+  </ul>
+</div>
