@@ -47,7 +47,6 @@ export class BookingComponent implements OnInit {
     private afAuth: AngularFireAuth,
     private calendar: NgbCalendar,
     private router: Router,
-    private afDatabase: AngularFireDatabase,
     )
   {
     this.today = this.serializeNgbDate(this.calendar.getToday());
@@ -57,7 +56,6 @@ export class BookingComponent implements OnInit {
 
 
   book(): void {
-
     const data = {
       //today: this.today,
       //model: this.model,
