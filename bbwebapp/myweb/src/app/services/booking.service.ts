@@ -12,12 +12,6 @@ export class BookingService {
   constructor(private firestore: AngularFirestore) {
   }
 
-  /*
-  async addBooking(booking: any) {
-    return await this.firestore.collection('bookings').add(booking);
-  }
-
-   */
   getBookings(): Observable<Booking[]> {
     return this.firestore.collection<Booking>('bookings').valueChanges();
   }

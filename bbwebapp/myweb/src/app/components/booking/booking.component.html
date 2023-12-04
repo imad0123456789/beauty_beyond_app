@@ -2,7 +2,7 @@
 <p>Booking Page</p>
 
 
-  <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" [markDisabled]="isWeekend" [minDate]="model"></ngb-datepicker>
+  <ngb-datepicker #dp [(ngModel)]="model" (navigate)="Date = $event.next" [markDisabled]="isWeekend" [minDate]="model"></ngb-datepicker>
 
 
 
@@ -44,7 +44,7 @@
 
 
 
-<pre>Month: {{ date.month }}.{{ date.year }}</pre>
+<pre>Month: {{ Date.month }}.{{ Date.year }}</pre>
 <pre>Model: {{ model | json }}</pre>
 
   </div>

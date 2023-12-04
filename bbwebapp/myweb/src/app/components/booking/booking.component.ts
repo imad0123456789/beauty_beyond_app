@@ -25,7 +25,7 @@ export class BookingComponent implements OnInit {
 
   today = inject(NgbCalendar).getToday();
   model!: NgbDateStruct;
-  date!: { year: number; month: number };
+  Date!: { year: number; month: number };
   userId: string='';
 
   availableHours: string[] = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '02:00 PM', '04:00 PM' ,'05:00 PM']; //  hours array
@@ -59,7 +59,7 @@ export class BookingComponent implements OnInit {
     const data = {
       //today: this.today,
       //model: this.model,
-      date:  `${this.model.month}/${this.model.day}/${this.model.year}`,
+      Date:  `${this.model.month}/${this.model.day}/${this.model.year}`,
       //date: this.date,
       Time: this.selectedHour,
       DoctorCategory: this.selectedCategory,
@@ -69,7 +69,7 @@ export class BookingComponent implements OnInit {
       userId: this.userId,
     };
 
-    this.firestore.collection('book').add(data)
+    this.firestore.collection('booking').add(data)
       .then(response => {
         console.log('Document added with ID: ', response.id)
       })

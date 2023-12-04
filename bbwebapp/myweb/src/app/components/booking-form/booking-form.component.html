@@ -1,4 +1,81 @@
+<div>
+  <h2>Appointments</h2>
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem>
+    <button ngbNavLink>UpComing Appointments</button>
+    <ng-template ngbNavContent>
+      <div *ngFor="let appointment of upcomingAppointments">
+        <div class="custom-card">
+          <div class="card-header">
+            <h5 class="card-title">Appointment Details</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+            <p class="card-text"><strong>Date:</strong> {{ appointment.Date }}</p>
+            <p class="card-text"><strong>Time:</strong> {{ appointment.Time }}</p>
+            <p class="card-text"><strong>Doctor:</strong> {{ appointment.doctorName }}</p>
+              </div>
+              <div class="col-md-6">
+                <img src="https://firebasestorage.googleapis.com/v0/b/bb-app-b5395.appspot.com/o/calendar-clipart-transparent-25.png?alt=media&token=bf31f7b5-5c19-4317-8abd-e9cc4f76d76a" style="width: 100px">
+              </div>
+                <div>
+              <button type="button" class="btn btn-primary" id="completedButton" (click)="markAsCompleted(bookId)">Completed</button>
+              <button type="button" class="btn btn-danger"> Cancled </button>
 
-<p>Table  <code></code></p>
-<table>
-</table>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </ng-template>
+  </li>
+
+  <li ngbNavItem>
+    <button ngbNavLink>Completed Appointments</button>
+    <ng-template ngbNavContent>
+      <div *ngFor="let appointment of completedAppointments" class="custom-card">
+          <div class="card-header">
+            <h5 class="card-title">Appointment Details</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+            <p class="card-text"><strong>Date:</strong> {{ appointment.Date }}</p>
+            <p class="card-text"><strong>Time:</strong> {{ appointment.Time }}</p>
+            <p class="card-text"><strong>Doctor:</strong> {{ appointment.doctorName }}</p>
+          </div>
+            <div class="col-md-6">
+              <img src="https://firebasestorage.googleapis.com/v0/b/bb-app-b5395.appspot.com/o/completed.jpg?alt=media&token=8dd0c8fb-3408-4587-9446-0963f20c189f" style="width: 100px">
+            </div>
+        </div>
+      </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem>
+    <button ngbNavLink>Canceled Appointments</button>
+    <ng-template ngbNavContent>
+      <div *ngFor="let appointment of canceledAppointments" class="custom-card">
+        <div class="card-header">
+          <h5 class="card-title">Appointment Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p class="card-text"><strong>Date:</strong> {{ appointment.Date }}</p>
+              <p class="card-text"><strong>Time:</strong> {{ appointment.Time }}</p>
+              <p class="card-text"><strong>Doctor:</strong> {{ appointment.doctorName }}</p>
+            </div>
+            <div class="col-md-6">
+              <img src="https://firebasestorage.googleapis.com/v0/b/bb-app-b5395.appspot.com/o/canceled.png?alt=media&token=d6004519-6729-449c-adcc-b87ffd9c448d" style="width: 100px">
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>

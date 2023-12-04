@@ -23,7 +23,7 @@ export class PricesComponent implements OnInit {
       photoUrl: 'https://firebasestorage.googleapis.com/v0/b/bb-app-b5395.appspot.com/o/002.png?alt=media&token=ccffa0d7-b931-43f3-aae5-22192ab85aa4'
     },
     {
-      name: 'BOTOX BEHANDLING',
+      name: 'BOTOX BEHANDLING ',
       price: '1500 DKK',
       photoUrl: 'https://firebasestorage.googleapis.com/v0/b/bb-app-b5395.appspot.com/o/003.png?alt=media&token=bf725916-b5a3-4a74-bbf6-68c3be7b912f'
     },

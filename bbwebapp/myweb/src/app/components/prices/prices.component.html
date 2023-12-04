@@ -1,19 +1,16 @@
-<div class="body">
+<div class="container">
+  <h2>Prices</h2>
 
-    <div class="row" >
-      <div class="cil cil-12 col-md-6 col-lg-3" *ngFor="let price of prices">
-        <div class="card" style="width: 18rem;">
-          <img [src]="price.photoUrl" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">{{price.name | titlecase}}</h5>
-            <p class="card-text"> {{price.price| currency}}</p>
-            <button  class="btn btn-primary">Book Tid</button>
-          </div>
-  
+  <div class="row">
+    <div class="col-md-6 col-lg-4" *ngFor="let price of prices">
+      <div class="card">
+        <img [src]="price.photoUrl" alt="{{ price.name }}" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{ price.name }}</h5>
+          <p class="card-text">{{ price.price }}</p>
+          <a routerLink="/booking" class="btn btn-primary">Book Tid</a>
         </div>
       </div>
-  
     </div>
-  
   </div>
-  
+</div>

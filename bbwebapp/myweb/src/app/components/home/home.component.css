@@ -8,11 +8,27 @@ img{
     padding: 10px;
     box-shadow: deeppink;
   }
-  
-  footer {
-    text-align: center;
-    padding: 3px;
-    background-color: deeppink;
-    color: white;
-  }
-  
+
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  background-color: #f8f9fa; /* Set a light background color */
+}
+
+
+footer {
+  background-color: #343a40; /* Set a dark background color */
+  color: #ffffff; /* Set the text color */
+  text-align: center;
+  padding: 20px;
+}
+
+
+footer p {
+  margin: 10px 0; /* Add some space between paragraphs */
+}
+

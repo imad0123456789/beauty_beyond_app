@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +12,13 @@ import {Router} from "@angular/router";
 export class NavbarComponent implements OnInit{
   isOpen: boolean = false;
   isUser: boolean = false;
+  userName$: Observable<string> = new Observable<string>();
 
-  constructor(private as: AuthService,private router: Router,){
+
+  constructor(
+    private as: AuthService,
+    private router: Router,
+    private firestore: AngularFirestore){
   }
 
 
@@ -21,7 +28,6 @@ export class NavbarComponent implements OnInit{
         this.isUser =true;
         this.as.userId = user.uid
       }
-
       else{
         this.isUser=false
         this.as.userId = ''

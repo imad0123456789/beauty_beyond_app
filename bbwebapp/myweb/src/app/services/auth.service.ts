@@ -16,7 +16,7 @@ export class AuthService {
   //auth: firebase.auth.Auth
 
   constructor(private afAuth: AngularFireAuth ) {
-    
+
     this.user= afAuth.user
   }
 
